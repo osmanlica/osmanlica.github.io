@@ -90,6 +90,12 @@
 
         });
 
+        window.onerror = function (message, file, line, col, error) {
+            alert("Hata: " + error.message + " file: " + file + " line: " + line) ;
+            return false;
+        };
+
+
         function search(searchText) {
             var resultList = [];
 
