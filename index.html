@@ -71,13 +71,15 @@
                 dRow.appendChild(dCol4);
 
                 container.appendChild(dRow);
-
-                $(".btn").click(function (e) {
-                    var imgpath = e.target.dataset.imgpath;
-                    var imgElem = document.getElementById('originalimg');
-                    imgElem.setAttribute("src", imgpath);
-                })
             }
+             $(".btn").click(function (e) {
+                    var imgpath = e.target.dataset.imgpath;
+                    console.log('imgpath ' + imgpath)
+                    if (imgpath != null){
+                        var imgElem = document.getElementById('originalimg');
+                        imgElem.setAttribute("src", imgpath);
+                    }
+                })
         }
     </script>
 
