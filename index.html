@@ -102,14 +102,40 @@
             if (searchText.length == 0)
                 return resultList;
 
-            var searchPattern = "^" + searchText + ".*";
-            var searchPatternLowerEn = "^" + searchText.toLocaleLowerCase('en') + ".*";
-            var searchPatternLowerTr = "^" + searchText.toLocaleLowerCase('tr') + ".*";
+            var searchPattern, searchPatternLowerEn, searchPatternLowerTr;
+            var searchSameLen = false;
+
+            
+            if (searchText.indexOf(".") > -1 ){
+                searchPattern = "^" + searchText;
+                searchPatternLowerEn = "^" + searchText.toLocaleLowerCase('en');
+                searchPatternLowerTr = "^" + searchText.toLocaleLowerCase('tr');
+                searchSameLen = true;
+            }
+            else if (searchText.indexOf("*") > -1 ){
+                searchPattern = "^" + searchText.replace("*", ".*");
+                searchPatternLowerEn = "^" + searchText.replace("*", ".*").toLocaleLowerCase('en');
+                searchPatternLowerTr = "^" + searchText.replace("*", ".*").toLocaleLowerCase('tr');
+            }
+            else{
+                searchPattern = "^" + searchText + ".*";
+                searchPatternLowerEn = "^" + searchText.toLocaleLowerCase('en') + ".*";
+                searchPatternLowerTr = "^" + searchText.toLocaleLowerCase('tr') + ".*";
+            }
+            
+            console.log(searchPattern);
 
             for (var i = 0; i < words.length; i++) {
                 if (searchText.charCodeAt(0) > 1000) {//unicode değeri 1000'in üzerindeyse arap harfleri ile arama yapılıyordur.
-                    if (words[i].Key.search(searchPattern) > -1) {
-                        resultList.push(words[i]);
+                    if (searchSameLen){
+                        if (words[i].Key.length == searchText.length && words[i].Key.search(searchPattern) > -1) {
+                            resultList.push(words[i]);
+                         }
+                    }
+                    else {
+                        if (words[i].Key.search(searchPattern) > -1) {
+                            resultList.push(words[i]);
+                        }
                     }
                 }
                 else if (words[i].DictName == "İngilizce - Osmanlıca") {
@@ -348,7 +374,10 @@
 
     <div id="container" class="container">
         <div class="form-group">
-            <input type="text" class="form-control" id="search" placeholder="Arama (Arap veya Latin harfleriyle) (Bilinmeyen harf yerine . koyabilirsiniz)">
+                <p>- Arap veya Latin harfleriyle arayabilirsiniz</p>
+                <p>- Bilinmeyen harf yerine . (nokta) koyarak arayabilirsiniz</p>
+                <p>- Bilinmeyen yan yana birkaç harf yerine * koyarak arayabilirsiniz </p>
+            <input type="text" class="form-control" id="search" placeholder="Arama...">
         </div>
     </div>
     <div>
