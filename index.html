@@ -95,6 +95,12 @@
             return false;
         };
 
+        $(document).keyup(function(e) {
+            if (e.keyCode == 27) { // escape
+                $('#search').val('');
+                renderResults([]);
+            }
+        });
 
         function search(searchText) {
             var resultList = [];
@@ -381,7 +387,8 @@
         </div>
     </div>
     <div>
-        <p align="center">Version 1.4</p>
+        <p align="center">----------------------------------</p>
+        <p align="center">Version 1.5</p>
     </div>
 
     <!-- Modal -->
